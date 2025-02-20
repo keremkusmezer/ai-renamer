@@ -17,7 +17,6 @@ const ollamaApis = async ({ model, prompt, images, baseURL }) => {
         return imageData.toString('base64')
       }))
     }
-
     const apiResult = await axios({
       url,
       data,
@@ -33,13 +32,14 @@ const ollamaApis = async ({ model, prompt, images, baseURL }) => {
 
 const openaiApis = async ({ model, prompt, images, apiKey, baseURL }) => {
   try {
-    const url = `${baseURL}/v1/chat/completions`
 
-    const data = {
-      model,
-      stream: false
-    }
+    const modelResult = await getModelResponse({ ...options, prompt })
+    console.log(`🟢 Model result: ${modelResult} (${relativeFilePath})`)
 
+    const maxChars = chars + 10
+    const text = modelResult.trim().slice(-maxChars)
+    const filename = await changeCase({ text, _case })
+    return filename
     const messages = [{
       role: 'user',
       content: [

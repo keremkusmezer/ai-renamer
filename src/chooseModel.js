@@ -31,7 +31,6 @@ const lmStudioApis = async ({ baseURL }) => {
 const listModels = async options => {
   try {
     const { provider } = options
-
     if (provider === 'ollama') {
       return ollamaApis(options)
     } else if (provider === 'lm-studio') {
@@ -74,13 +73,11 @@ const chooseModel = ({ models }) => {
     'mixtral',
     'deepseek-coder'
   ]
-
   for (const modelName of preferredModels) {
     if (models.some(model => model.name.toLowerCase().includes(modelName))) {
       return models.find(model => model.name.toLowerCase().includes(modelName)).name
     }
   }
-
   return models.length > 0 ? models[0].name : null
 }
 
